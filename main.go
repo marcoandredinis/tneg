@@ -42,7 +42,6 @@ func testClient() {
 	s := "magnet:?xt=urn:btih:655676fc05fb5b56e9b5553f8b6c8be81e5ba29f&dn=ptwiki-20170205.slob&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80"
 	m, err := metadata.ParseMagnetURI(s)
 	if err != nil {
-
 		_ = fmt.Errorf("error processing URI")
 	}
 	t, err := metadata.TorrentFromMagnetURI(m)

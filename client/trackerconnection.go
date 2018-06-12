@@ -113,6 +113,9 @@ func (tc *TrackerConnection) write(h interface{}, b interface{}) (err error) {
 		}
 	}
 	n, err := tc.Socket.Write(buf.Bytes())
+	if err != nil {
+		return err
+	}
 	if n != buf.Len() {
 		return errors.New("did not send everything to socket")
 	}
@@ -123,7 +126,10 @@ func (tc *TrackerConnection) read(hresp *HeaderResponse, bresp interface{}) (byt
 	b := make([]byte, 40960)
 
 	// set read deadline to 15 seconds (and try at most 4 times)
-	tc.Socket.SetReadDeadline(time.Now().Add(time.Second * 15))
+	err = tc.Socket.SetReadDeadline(time.Now().Add(time.Second * 15))
+	if err != nil {
+		return nil, err
+	}
 	tc.LastWaitedTime = 15
 
 	for {
@@ -220,6 +226,9 @@ func (tc *TrackerConnection) Announce() (err error) {
 			Port:       tc.ListenPort,
 			Extensions: 0,
 		})
+	if err != nil {
+		return err
+	}
 	var hresp HeaderResponse
 	var bresp AnnouncingBodyResponse
 	peers, err := tc.read(&hresp, &bresp)

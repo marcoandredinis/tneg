@@ -55,6 +55,9 @@ func (p *Peer) write(b interface{}) (err error) {
 		return err
 	}
 	n, err := p.Socket.Write(buf.Bytes())
+	if err != nil {
+		return err
+	}
 	if n != buf.Len() {
 		return errors.New("did not send everything to socket")
 	}
